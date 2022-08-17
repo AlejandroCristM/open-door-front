@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from '../containers/Layout';
+import CourseList from '../pages/CourseList';
 import Home from '../pages/Home';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path='/courses' element={<CourseList/>} />
           <Route path='*' element={<p>There is nothing here: 404!</p>} />
         </Route>
       </Routes>
