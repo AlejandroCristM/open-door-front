@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
 import CourseCard from '../components/atoms/CourseCard'
 
 export default function CourseList() {
@@ -7,26 +7,22 @@ export default function CourseList() {
   //*To-Do The next object will emulate the API's ops, instead of this will be the api conection
   // title => max 30 chars
   // description => max 150 chars just for item card
+
+  const [courses, setCourses] = useState([]);
   
-  const courses=[
-    {
-      id: nanoid(),
-      title: 'Lógica de programación',
-      description: 'Conceptos básicos relacionados a la lógica de programación, variables, condicionales, iteraciones o ciclos, estructuras de datos y buenas prácticas',
-      duration: '80h'
-    },
-    {
-      id: nanoid(),
-      title: 'Flujo de trabajo Lean Tech',
-      description: 'Conceptos fundamentales acerca de la organización que todo empleado a de conocer sobre nuestra familia y cultura organizacional',
-      duration: '20h'
-    }
-  ]
+  useEffect(() => {
+    axios
+      .get(`https://back-integrador.vercel.app/courses?offset=0&limit=10`)
+      .then(({ data }) => {
+        setCourses(data.courses);
+      });
+  }, []);
+
 
   const courseItems = courses.map((course)=>{
     console.log('course: '+course)
     return(
-      <CourseCard title={course.title} description={course.description} duration={course.duration} />
+      <CourseCard id={course.id} title={course.title} description={course.description}/>
     )
   })
 

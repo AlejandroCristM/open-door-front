@@ -36,7 +36,7 @@ export default function NavBar() {
               <Link to={'/courses'} className='navItem'>Cursos</Link>
             </div>
         </section>
-        <ButtonAndIcon icon={<BiExit className='h-5 w-5'/>} text='Salir' otherStyles='bg-orange-lt text-white' responsive={true}></ButtonAndIcon>
+        <ButtonAndIcon icon={<BiExit className='h-5 w-5'/>} text='Salir' otherStyles='bg-orange-lt text-white' responsive={true} />
     </nav>
   )
 }
