@@ -9,13 +9,16 @@ export default function CourseList() {
   // description => max 150 chars just for item card
 
   const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
-    axios
-      .get(`https://back-integrador.vercel.app/courses?offset=0&limit=10`)
-      .then(({ data }) => {
-        setCourses(data.courses);
-      });
+    const fetchDataCourses = async () => {
+      setIsLoading(true);
+      const result = await axios.get('https://back-integrador.vercel.app/courses?offset=0&limit=10');
+      setCourses(result.data.courses);
+      setIsLoading(false);
+    }
+    fetchDataCourses();
   }, []);
 
 
@@ -30,7 +33,7 @@ export default function CourseList() {
     <section className='flex flex-wrap w-full justify-center items-center mt-2 p-4 '>
       <h2 className='mb-2 text-xl font-semibold'>Courses</h2>
       <section className='flex flex-wrap w-full justify-center mt-4 gap-4 md:gap-8 lg:gap-12'>
-        {courseItems}
+        {isLoading ? <div className='mt-5 text-lg'>Loading...</div> : courseItems}
       </section>
     </section>
   )

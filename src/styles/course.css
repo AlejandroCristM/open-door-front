@@ -1,0 +1,11 @@
+.container-content{
+    @apply w-full flex flex-col justify-center;
+}
+
+.subtitle-content{
+    @apply text-base text-center font-semibold text-orange-lt mx-auto;
+}
+
+.description-content{
+    @apply w-4/5 text-center mt-3 mb-2 mx-auto;
+}
