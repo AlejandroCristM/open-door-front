@@ -12,7 +12,7 @@ const courseFromApi = {
   id: nanoid(),
   title: 'React Native: A Complete Guide to Building a Realtime App with React',
   description: 'React Native is a framework for building native apps using React. Native apps are apps that run on a device, rather than on a web browser. React Native is designed to work with existing iOS and Android apps, and can be used to create new apps. React Native is open source and maintained by Facebook. React Native is used by thousands of developers worldwide, and is the largest open source project in the world.',
-  status: 'In progress', //Unabled, Able to start, In progress, Finished
+  status: 'AbleToStart', //AbleToStart, InProgress, Finished
   courseContent: [
     {
       id: 1,
@@ -44,36 +44,37 @@ export default function Course() {
 
   const [course, setCourse] = useState(courseFromApi);
   const [courseStatus, setCourseStatus] = useState('');
-  const [showCourseContent, setShowCourseContent] = useState(false);
 
   useEffect(() => {
     setCourse(courseFromApi);
     setCourseStatus(courseFromApi.status);
-    if(courseFromApi.status==='In progress' || courseFromApi.status==='Able to start'){
-      setShowCourseContent(true);
-    }
   }, [courseIdParsed]);
 
   const courseContent = course?.courseContent.map((content)=>{
     switch(content.contentType){
+      
       case 'video':
         return(
           <div className='container-content' key={nanoid()}>
             <h3 className='subtitle-content'>{content.title}</h3>
-            <p className='description-content'>{content.description}</p>
+            <div className='w-full flex flex-col justify-center items-center'>
+              <p className='description-content'>{content.description}</p>
+            </div>
             <YouTubeVideo url={content.url}/>
           </div>
         );
+
       case 'image':
         return(
           <div className='container-content' key={nanoid()}>
             <h3 className='subtitle-content'>{content.title}</h3>
             <p className='description-content'>{content.description}</p>
             <picture className='flex w-full justify-center mx-auto md:w-4/5'>
-              <img className='w-full' src={content.url}></img>
+              <img className='w-full' src={content.url} alt={`${content.description}`}></img>
             </picture>
           </div>
         );
+
       case 'resource':
         return(
           <div className='container-content' key={nanoid()}>
@@ -82,16 +83,17 @@ export default function Course() {
             <div className='w-full flex justify-center'>
               <ButtonAndIcon 
                 icon={<AiOutlineDownload className='h-5 w-5'/>} 
-                text='Download' otherStyles='bg-orange-lt text-white' 
+                text='Download' 
+                otherStyles='bg-orange-lt text-white' 
                 responsive={true}
                 urlDocument={content.url}
               />
             </div>
           </div>
         );
+
       default: return null;
     }
-    return null;
   });
 
   return (
@@ -99,10 +101,25 @@ export default function Course() {
       <div className='w-full md:w-4/5'>
         <h1 className='pb-5 text-center text-xl text-blue-lt font-bold'>{course.title}</h1>
         <RelevantText text={course.status} maxLegth={13} />
-        <p className='mt-5 text-center'>{course.description}</p>
+        <div className='w-full flex flex-col justify-center items-center'>
+          <p className='mt-5 mb-2 text-center md:mt-10 md:w-2/3'>{course.description}</p>
+        </div>
       </div>
-      <section className='w-full flex flex-col justify-center mt-16 space-y-10'>
-        {showCourseContent ? courseContent : null}
+      <section className='w-full flex flex-col justify-center items-center mt-5 space-y-10 md:mt-10'>
+        {courseStatus==='AbleToStart'? 
+          <ButtonAndIcon
+            text={'Start Course'}
+            otherStyles='bg-orange-lt text-white' 
+            responsive={false}
+            onClick={()=>{
+              setCourseStatus('InProgress');
+              // to-do send put request to backend to update the status of the course
+            }}
+          />  
+         :
+          null
+        }
+        {courseStatus==='InProgress' ? courseContent : null}
       </section>
     </section>
   )

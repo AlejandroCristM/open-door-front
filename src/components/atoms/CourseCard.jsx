@@ -13,7 +13,7 @@ export default function CourseCard({id, title, description}) {
   }
 
   return (
-    <section className='flex flex-col w-32 h-auto bg-blue-lt p-2 text-white text-center rounded divide-y md:w-72' onClick={handleCourseCLick}>
+    <section className='flex flex-col w-32 h-auto bg-blue-lt p-2 text-white text-center rounded-lg divide-y md:w-72' onClick={handleCourseCLick}>
         <div className='flex h-16 items-center'>
             <h3 className='w-full text-center text-base pb-2'>{title}</h3>
         </div>

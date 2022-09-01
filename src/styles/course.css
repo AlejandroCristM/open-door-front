@@ -1,5 +1,5 @@
 .container-content{
-    @apply w-full flex flex-col justify-center;
+    @apply w-full flex flex-col justify-center items-center md:mb-8;
 }
 
 .subtitle-content{
@@ -7,5 +7,5 @@
 }
 
 .description-content{
-    @apply w-4/5 text-center mt-3 mb-2 mx-auto;
+    @apply mb-2 mx-auto mt-5 text-center md:w-2/3 md:mb-4;
 }
