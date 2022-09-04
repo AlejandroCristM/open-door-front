@@ -1,0 +1,19 @@
+.homeLogoContainer{
+    @apply flex w-4/5 justify-center items-center;
+}
+
+.homeLogo{
+    @apply w-3/4;
+}
+
+.textHome{
+    @apply text-base pt-1 pb-3 px-5 lg:text-xl;
+}
+
+.mainTitle{
+    @apply font-bold text-2xl px-5 py-2 lg:text-5xl;
+}
+
+.textContainer{
+    @apply w-full md:w-1/2 text-center md:px-10 md:text-left;
+}
