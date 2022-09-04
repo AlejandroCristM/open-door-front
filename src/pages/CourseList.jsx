@@ -42,10 +42,11 @@ export default function CourseList() {
   const handleCreateCourseClick = async () => {
     setIsCreateCourseOpen(false);
     // const response = await axios.post('https://back-integrador.vercel.app/courses/create', {
-    //   courseTitle: newTitleCourse,
-    //   description: newDescriptionCourse
-    // })
-    // console.log(response)
+    const response = await axios.post('https://back-open-door-2dasflqj6-cristiancastano852.vercel.app/course/create', {
+      title: newTitleCourse,
+      description: newDescriptionCourse,
+    })
+    console.log(response)
     setNewDescriptionCourse('')
     setNewTitleCourse('')
     navigate(0)

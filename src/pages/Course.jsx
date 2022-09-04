@@ -10,8 +10,8 @@ import '../styles/course.css';
   //contract for the api call - the api will return the course with the id
 const courseFromApi = {
   id: nanoid(),
-  title: 'React Native: A Complete Guide to Building a Realtime App with React',
-  description: 'React Native is a framework for building native apps using React. Native apps are apps that run on a device, rather than on a web browser. React Native is designed to work with existing iOS and Android apps, and can be used to create new apps. React Native is open source and maintained by Facebook. React Native is used by thousands of developers worldwide, and is the largest open source project in the world.',
+  title: 'React Native: A Complete Guide',
+  description: 'React Native is a framework for building native apps using React. Native apps are apps that run on a device, rather than on a web browser.',
   status: 'AbleToStart', //AbleToStart, InProgress, Finished
   courseContent: [
     {
