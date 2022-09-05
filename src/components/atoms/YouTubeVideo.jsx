@@ -8,7 +8,7 @@ export default function YouTubeVideo(urlVideo) {
   useEffect(() => {
     const videoId = urlVideo.url;
     setUrl(videoId.split("v=")[1].split("&")[0])
-  }, [url]);
+  }, [urlVideo.url]);
 
   return (
     <div className="w-full flex justify-center">

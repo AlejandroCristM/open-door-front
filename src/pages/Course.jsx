@@ -16,19 +16,13 @@ const courseFromApi = {
   courseContent: [
     {
       id: 1,
-      title: 'Introduction to React Native',
+      name: 'Introduction to React Native',
       description: 'This is the introduction video for React Native course, mainly about the framework itself and a quick overview of the components that are available.',
       contentType: 'video',
       url: 'https://www.youtube.com/watch?v=ovqPwKnwqhM&t' //embed url, admin should be able to add the video url, but embed url is not required
     },{
       id:2,
-      title: 'Installation and Setup of React Native Enviroment',
-      description: 'This is the installation and setup of the React Native environment for the course. It will also show you how to install the dependencies for the course. This is the first step to start building a React Native app.',
-      contentType: 'image',
-      url: 'https://blog.back4app.com/wp-content/uploads/2020/10/react-native-2-1140x515.png'
-    },{
-      id:3,
-      title: 'Environment Setup configuration file',
+      name: 'Environment Setup configuration file',
       description: 'This is the configuration file for the React Native environment. It will show you how to configure the environment for the course. This is the second step to start building a React Native app.',
       contentType: 'resource',
       url: 'https://drive.google.com/uc?id=1K-xVrXnuQAbdELzzq1c7Y_PKECnImm5a&export=download'
@@ -56,7 +50,7 @@ export default function Course() {
       case 'video':
         return(
           <div className='container-content' key={nanoid()}>
-            <h3 className='subtitle-content'>{content.title}</h3>
+            <h3 className='subtitle-content'>{content.name}</h3>
             <div className='w-full flex flex-col justify-center items-center'>
               <p className='description-content'>{content.description}</p>
             </div>
@@ -64,21 +58,10 @@ export default function Course() {
           </div>
         );
 
-      case 'image':
-        return(
-          <div className='container-content' key={nanoid()}>
-            <h3 className='subtitle-content'>{content.title}</h3>
-            <p className='description-content'>{content.description}</p>
-            <picture className='flex w-full justify-center mx-auto md:w-4/5'>
-              <img className='w-full' src={content.url} alt={`${content.description}`}></img>
-            </picture>
-          </div>
-        );
-
       case 'resource':
         return(
           <div className='container-content' key={nanoid()}>
-            <h3 className='subtitle-content'>{content.title}</h3>
+            <h3 className='subtitle-content'>{content.name}</h3>
             <p className='description-content'>{content.description}</p>
             <div className='w-full flex justify-center'>
               <ButtonAndIcon 
