@@ -7,6 +7,7 @@ import './index.css'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const {REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID} = process.env;
+console.log(REACT_APP_AUTH0_CLIENT_ID, REACT_APP_AUTH0_DOMAIN);
 
 root.render(
   <React.StrictMode>

@@ -1,10 +1,6 @@
 import React from 'react'
 
-<<<<<<< HEAD
 export default function ButtonAndIcon({icon, text, otherStyles, responsive, onClick, urlDocument}) {
-=======
-export default function ButtonAndIcon({icon, text, otherStyles, responsive, onClick}) {
->>>>>>> dev
 
   let responsiveStyle=''
   responsive ? responsiveStyle=' hidden md:inline' : responsiveStyle='inline';

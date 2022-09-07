@@ -8,27 +8,27 @@ import { AiOutlineDownload } from "react-icons/ai";
 import '../styles/course.css';
 
   //contract for the api call - the api will return the course with the id
-const courseFromApi = {
-  id: nanoid(),
-  title: 'React Native: A Complete Guide',
-  description: 'React Native is a framework for building native apps using React. Native apps are apps that run on a device, rather than on a web browser.',
-  status: 'AbleToStart', //AbleToStart, InProgress, Finished
-  courseContent: [
-    {
-      id: 1,
-      name: 'Introduction to React Native',
-      description: 'This is the introduction video for React Native course, mainly about the framework itself and a quick overview of the components that are available.',
-      contentType: 'video',
-      url: 'https://www.youtube.com/watch?v=ovqPwKnwqhM&t' //embed url, admin should be able to add the video url, but embed url is not required
-    },{
-      id:2,
-      name: 'Environment Setup configuration file',
-      description: 'This is the configuration file for the React Native environment. It will show you how to configure the environment for the course. This is the second step to start building a React Native app.',
-      contentType: 'resource',
-      url: 'https://drive.google.com/uc?id=1K-xVrXnuQAbdELzzq1c7Y_PKECnImm5a&export=download'
-    }
-  ]
-}
+// const courseFromApi = {
+//   id: nanoid(),
+//   title: 'React Native: A Complete Guide',
+//   description: 'React Native is a framework for building native apps using React. Native apps are apps that run on a device, rather than on a web browser.',
+//   status: 'AbleToStart', //AbleToStart, InProgress, Finished
+//   courseContent: [
+//     {
+//       id: 1,
+//       name: 'Introduction to React Native',
+//       description: 'This is the introduction video for React Native course, mainly about the framework itself and a quick overview of the components that are available.',
+//       contentType: 'video',
+//       url: 'https://www.youtube.com/watch?v=ovqPwKnwqhM&t' //embed url, admin should be able to add the video url, but embed url is not required
+//     },{
+//       id:2,
+//       name: 'Environment Setup configuration file',
+//       description: 'This is the configuration file for the React Native environment. It will show you how to configure the environment for the course. This is the second step to start building a React Native app.',
+//       contentType: 'resource',
+//       url: 'https://drive.google.com/uc?id=1K-xVrXnuQAbdELzzq1c7Y_PKECnImm5a&export=download'
+//     }
+//   ]
+// }
 
 export default function Course() {
   
@@ -36,12 +36,17 @@ export default function Course() {
   const courseIdParsed = courseId.substring(0,25);
   //Just get the id - URL friendly, 25 beacuse from backend the id is 25 chars long
 
-  const [course, setCourse] = useState(courseFromApi);
+  const [course, setCourse] = useState([]);
   const [courseStatus, setCourseStatus] = useState('');
 
   useEffect(() => {
-    setCourse(courseFromApi);
-    setCourseStatus(courseFromApi.status);
+    fetch(`https://back-open-door-2z6de84uw-cristiancastano852.vercel.app//course/${courseIdParsed}`)
+    .then(response => response.json())
+    .then(data => {
+      setCourse(data);
+      setCourseStatus(data.status);
+    })
+    .catch(error => console.log(error));
   }, [courseIdParsed]);
 
   const courseContent = course?.courseContent.map((content)=>{
