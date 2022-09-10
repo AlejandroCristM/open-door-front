@@ -4,7 +4,6 @@ import ButtonAndIcon from './ButtonAndIcon';
 import { useNavigate } from 'react-router-dom';
 
 export default function CourseCard({id, title, description}) {
-  console.log(id, title, description);
   const navigate = useNavigate();
   const urlFriendly = title.replaceAll(' ', '-').toLowerCase();
 

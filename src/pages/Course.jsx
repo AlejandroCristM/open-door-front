@@ -1,34 +1,14 @@
 import { nanoid } from 'nanoid';
 import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import ButtonAndIcon from '../components/atoms/ButtonAndIcon';
 import RelevantText from '../components/atoms/RelevantText';
 import YouTubeVideo from '../components/atoms/YouTubeVideo';
 import { AiOutlineDownload } from "react-icons/ai";
 import '../styles/course.css';
+import Loading from '../components/atoms/Loading';
 
-  //contract for the api call - the api will return the course with the id
-// const courseFromApi = {
-//   id: nanoid(),
-//   title: 'React Native: A Complete Guide',
-//   description: 'React Native is a framework for building native apps using React. Native apps are apps that run on a device, rather than on a web browser.',
-//   status: 'AbleToStart', //AbleToStart, InProgress, Finished
-//   courseContent: [
-//     {
-//       id: 1,
-//       name: 'Introduction to React Native',
-//       description: 'This is the introduction video for React Native course, mainly about the framework itself and a quick overview of the components that are available.',
-//       contentType: 'video',
-//       url: 'https://www.youtube.com/watch?v=ovqPwKnwqhM&t' //embed url, admin should be able to add the video url, but embed url is not required
-//     },{
-//       id:2,
-//       name: 'Environment Setup configuration file',
-//       description: 'This is the configuration file for the React Native environment. It will show you how to configure the environment for the course. This is the second step to start building a React Native app.',
-//       contentType: 'resource',
-//       url: 'https://drive.google.com/uc?id=1K-xVrXnuQAbdELzzq1c7Y_PKECnImm5a&export=download'
-//     }
-//   ]
-// }
 
 export default function Course() {
   
@@ -38,19 +18,31 @@ export default function Course() {
 
   const [course, setCourse] = useState([]);
   const [courseStatus, setCourseStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`https://back-open-door-2z6de84uw-cristiancastano852.vercel.app//course/${courseIdParsed}`)
-    .then(response => response.json())
-    .then(data => {
-      setCourse(data);
-      setCourseStatus(data.status);
-    })
-    .catch(error => console.log(error));
+    setIsLoading(true);
+    const fetchDataCourse = async () => {
+      const options = {
+        method: 'GET',
+        url: 'https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/course/detail/'+courseIdParsed,
+        headers: {'Content-Type': 'application/json'},
+        data: {userId: 'cl7umof4l020828lzuj01imd5'}
+      };
+      
+      await axios.request(options).then(function (response) {
+        setCourseStatus(response.data.course[0].status)
+        setCourse(response.data.course[0].Course)
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+    fetchDataCourse();
+    setIsLoading(false);
   }, [courseIdParsed]);
 
-  const courseContent = course?.courseContent.map((content)=>{
-    switch(content.contentType){
+  const courseContent = course?.courseContents?.map((content)=>{
+    switch(content.typeFile){
       
       case 'video':
         return(
@@ -59,7 +51,7 @@ export default function Course() {
             <div className='w-full flex flex-col justify-center items-center'>
               <p className='description-content'>{content.description}</p>
             </div>
-            <YouTubeVideo url={content.url}/>
+            <YouTubeVideo url={content.file}/>
           </div>
         );
 
@@ -74,7 +66,7 @@ export default function Course() {
                 text='Download' 
                 otherStyles='bg-orange-lt text-white' 
                 responsive={true}
-                urlDocument={content.url}
+                urlDocument={content.file}
               />
             </div>
           </div>
@@ -84,11 +76,41 @@ export default function Course() {
     }
   });
 
+  const handleClickStartCourse=()=>{
+    setIsLoading(true);
+    const fetchDataCourse = async () => {
+      const options = {
+        method: 'PATCH',
+        url: 'https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/course/status',
+        headers: {'Content-Type': 'application/json'},
+        data: {
+          userId: 'cl7umof4l020828lzuj01imd5',
+          courseId: 'cl7tlkn8c0001j8mkyqyigxd2',
+          statusCourse: 'InProgress'
+        }
+      };
+      
+      await axios.request(options).then(function () {
+        setCourseStatus('InProgress');
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+    fetchDataCourse();
+    setIsLoading(false);
+  }
+
+  if(isLoading){
+    return(
+      <Loading/>
+    );
+  }
+
   return (
     <section className='w-full flex flex-col justify-center items-center p-5'>
       <div className='w-full md:w-4/5'>
         <h1 className='pb-5 text-center text-xl text-blue-lt font-bold'>{course.title}</h1>
-        <RelevantText text={course.status} maxLegth={13} />
+        <RelevantText text={courseStatus} maxLegth={13} />
         <div className='w-full flex flex-col justify-center items-center'>
           <p className='mt-5 mb-2 text-center md:mt-10 md:w-2/3'>{course.description}</p>
         </div>
@@ -99,15 +121,16 @@ export default function Course() {
             text={'Start Course'}
             otherStyles='bg-orange-lt text-white' 
             responsive={false}
-            onClick={()=>{
-              setCourseStatus('InProgress');
-              // to-do send put request to backend to update the status of the course
-            }}
+            onClick={handleClickStartCourse}
           />  
          :
           null
         }
-        {courseStatus==='InProgress' ? courseContent : null}
+        {
+          isLoading? <Loading/> : 
+          courseStatus==='InProgress' || courseStatus==='Finished' ?
+          courseContent : null
+        }
       </section>
     </section>
   )

@@ -1,4 +1,6 @@
 import React from "react";
+import { useAuth0 } from '@auth0/auth0-react';
+import Cookies from 'js-cookie'
 import LandingImage from "../assets/LandingPage1.jpg";
 import LandingImage2 from "../assets/LandingPage2.jpg";
 import OpenDoorIcon from "../assets/openDoorIcon.svg";
@@ -7,6 +9,12 @@ import LogoUdea from "../assets/logoUdea.png";
 import "../styles/home.css";
 
 export default function Home() {
+
+  const { isAuthenticated, user} = useAuth0();
+  if(isAuthenticated){
+    Cookies.set('userEmail', user.email);
+  }
+
   return (
     <section className="w-full">
 
