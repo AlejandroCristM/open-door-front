@@ -23,14 +23,15 @@ export default function Course() {
   useEffect(() => {
     setIsLoading(true);
     const fetchDataCourse = async () => {
+      console.log(courseIdParsed)
       const options = {
         method: 'GET',
         url: 'https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/course/detail/'+courseIdParsed,
-        headers: {'Content-Type': 'application/json'},
-        data: {userId: 'cl7umof4l020828lzuj01imd5'}
+        headers: {'Content-Type': 'application/json', "userId": 'cl7umof4l020828lzuj01imd5'}
       };
       
       await axios.request(options).then(function (response) {
+        console.log(response)
         setCourseStatus(response.data.course[0].status)
         setCourse(response.data.course[0].Course)
       }).catch(function (error) {
