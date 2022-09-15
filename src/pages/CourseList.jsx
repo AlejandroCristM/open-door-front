@@ -19,8 +19,8 @@ export default function CourseList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchDataCourses = async () => {
+      setIsLoading(true);
       const options = {
         method: "GET",
         url: "https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/courses",
@@ -35,17 +35,16 @@ export default function CourseList() {
         })
         .catch(function (error) {
           console.error(error);
-        });
+        });  
+      setIsLoading(false);
     };
     fetchDataCourses();
-    setIsLoading(false);
   }, []);
 
   const courseItems = courses.map((course) => {
     return (
       <CourseCard
         key={nanoid()}
-        id={course.id}
         title={course.title}
         description={course.description}
       />
@@ -81,7 +80,7 @@ export default function CourseList() {
   return (
     <section className="flex flex-wrap w-full justify-center items-center mt-2 p-4 ">
       <div className="w-full px-5 py-2 flex flex-row justify-between md:px-20 md:py-5">
-        <h2 className="mb-2 text-xl font-semibold">Courses</h2>
+        <h2 className="mb-2 text-xl font-semibold">Cursos</h2>
         <ButtonAndIcon
           icon={<MdAddCircleOutline className="h-5 w-5 text-white" />}
           text="Añadir Curso"

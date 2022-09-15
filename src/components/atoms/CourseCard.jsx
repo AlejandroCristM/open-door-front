@@ -21,7 +21,6 @@ export default function CourseCard({id, title, description}) {
                 {description}
             </div>
             <div className='flex flex-row justify-center items-center p-2 md:px-5'>
-                {/* <p className='text-sm'>{}</p> */}
                 <ButtonAndIcon text='ver más' icon={<AiOutlineEye className='h-5 w-5 text-white'/>} otherStyles='bg-orange-lt' responsive={true} />
             </div>
         </div>

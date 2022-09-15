@@ -13,7 +13,7 @@ root.render(
     <Auth0Provider 
       domain={REACT_APP_AUTH0_DOMAIN} 
       clientId={REACT_APP_AUTH0_CLIENT_ID} 
-      redirectUri={window.location.origin}
+      redirectUri={window.location.origin+"/profile"}
     >
       <App />
     </Auth0Provider>
