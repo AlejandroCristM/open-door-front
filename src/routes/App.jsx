@@ -9,6 +9,7 @@ import NotFounded from '../pages/NotFounded';
 import UserProfile from '../pages/UserProfile';
 import LoginFirst from '../pages/LoginFirst';
 import Loading from '../components/atoms/Loading';
+import Tracking from '../pages/Tracking';
 
 function App() {
 
@@ -42,6 +43,13 @@ function App() {
           <Route path='/course/:courseId' 
             element={isAuthenticated ? 
               <Course /> 
+              :
+              <LoginFirst />
+            }
+          />
+          <Route path='/tracking' 
+            element={isAuthenticated ? 
+              <Tracking /> 
               :
               <LoginFirst />
             }

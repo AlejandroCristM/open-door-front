@@ -15,7 +15,7 @@ export default function UserProfile() {
     const fetchUserId = async () => {
       setIsLoading(true)
       const res = await axios.get('https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/getRole', {
-        headers: { email: 'sndj.kddbd@yopmail.net' }
+        headers: { email: user.email }
       });
       switch (res.data.rol) {
         case 'admin':
@@ -38,14 +38,17 @@ export default function UserProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       setIsLoading(true)
-      const res = await axios.get('https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/userProfile/' + userId);
-      setUserDB(res.data.user)
+      if(userId){
+        const res = await axios.get('https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/userProfile/' + userId);
+        setUserDB(res.data.user)
+      }
     }
 
     fetchUserData();
     setIsLoading(false)
   }, [userId])
 
+  if(isLoading){return <Loading/>}
 
   return (
     <section className="flex flex-col justify-center items-center px-4 text-blue-lt md:flex-row md:mt-10">
@@ -67,14 +70,12 @@ export default function UserProfile() {
         </div>
       </section>
       <section className="w-full flex mt-8 flex-col items-center text-center text-lg md:w-1/2">
-        {isLoading ? <Loading /> :
           <div className="flex flex-col items-center">
             <h4 className='text-orange-lt font-semibold'>Acerca:</h4>
             <p className='text-sm'>{userDB.about}</p>
             <h4 className='mt-3 text-orange-lt font-semibold'>Objetivos:</h4>
             <p className='text-sm'>{userDB.expectations}</p>
           </div>
-        }
       </section>
     </section>
   )

@@ -1,9 +1,9 @@
 import React from 'react'
 import { AiOutlineEye } from "react-icons/ai";
-import ButtonAndIcon from './ButtonAndIcon';
+import ButtonAndIcon from '../atoms/ButtonAndIcon';
 import { useNavigate } from 'react-router-dom';
 
-export default function CourseCard({id, title, description}) {
+export default function CourseCard({id, title, description, status}) {
   const navigate = useNavigate();
   const urlFriendly = title.replaceAll(' ', '-').toLowerCase();
 
@@ -11,15 +11,29 @@ export default function CourseCard({id, title, description}) {
     navigate(`/course/${id}-${urlFriendly}`)
   }
 
+  let styles=""
+
+  if(status){
+    styles+=" w-3/4"
+  }else{
+    styles+=" w-32"
+  }
+
   return (
-    <section className='flex flex-col w-32 h-auto bg-blue-lt p-2 text-white text-center rounded-lg divide-y md:w-72' onClick={handleCourseCLick}>
+    <section className={'flex flex-col h-auto bg-blue-lt p-2 text-white text-center rounded-lg divide-y md:w-72 '+styles} onClick={handleCourseCLick}>
         <div className='flex h-16 items-center'>
             <h3 className='w-full text-center text-base pb-2'>{title}</h3>
         </div>
         <div className='flex flex-col'>
-            <div className='hidden px-5 w-full h-32 md:flex md:items-center'>
-                {description}
-            </div>
+            {description?
+              <div className='hidden px-5 w-full h-32 md:flex md:items-center'>
+                  {description}
+              </div>
+              :
+              <div className='px-5 w-full h-10 flex items-center'>
+                  {status}
+              </div>
+            }
             <div className='flex flex-row justify-center items-center p-2 md:px-5'>
                 <ButtonAndIcon text='ver más' icon={<AiOutlineEye className='h-5 w-5 text-white'/>} otherStyles='bg-orange-lt' responsive={true} />
             </div>

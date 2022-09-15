@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import CourseCard from "../components/atoms/CourseCard";
+import CourseCard from "../components/molecules/CourseCard";
 import ButtonAndIcon from "../components/atoms/ButtonAndIcon";
 import { MdAddCircleOutline } from "react-icons/md";
 import { Dialog, DialogTitle, TextField, Button } from "@mui/material";
@@ -45,6 +45,7 @@ export default function CourseList() {
     return (
       <CourseCard
         key={nanoid()}
+        id={course.id}
         title={course.title}
         description={course.description}
       />
