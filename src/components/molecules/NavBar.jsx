@@ -5,11 +5,11 @@ import { MdClose } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import LoginButton from '../atoms/LoginButton';
 import LogOutButton from '../atoms/LogOutButton';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useUserState } from "../../hooks/useUserState";
 
 
 export default function NavBar() {
-  const {isAuthenticated} = useAuth0();
+  const {isAuthenticated, userCreated} = useUserState();
   const [navbarOpen, setNavbarOpen] = useState(false)
 
   const handleMenuToggle = () => {
@@ -19,9 +19,9 @@ export default function NavBar() {
   return (
     <nav className='flex flex-row w-full mt-5 px-5 py-5 justify-between items-center md:px-10 lg:px-20'>
         <div className='absolute top top-16 left-8'>
-        {navbarOpen && isAuthenticated? <DropMenu toggle={handleMenuToggle}/>: null}
+        {navbarOpen && userCreated? <DropMenu toggle={handleMenuToggle}/>: null}
         </div>
-        {isAuthenticated?
+        {userCreated?
           <section className='flex flex-row items-center'>
               <div className='mr-5' onClick={handleMenuToggle}>
                 {navbarOpen?
@@ -43,6 +43,9 @@ export default function NavBar() {
               <Link to={'/'}>
                 <img src={openDoorLogo} alt="Open Door Logo" />
               </Link>
+              <div className='flex flex-row space-x-10 ml-8 list-none hidden text-blue-lt md:flex'>
+                <Link to={'/profile'} className='navItem'>Mi perfil</Link>
+              </div>
           </section>
         }
         {isAuthenticated? <LogOutButton/> : <LoginButton/>}
