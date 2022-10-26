@@ -131,10 +131,12 @@ export default function FormNewUser() {
 
   const coursesRedirection = () => {
     navigate("/courses");
+    window.location.reload();
   };
 
   const profileRedirection = () => {
     navigate("/profile");
+    window.location.reload();
   };
 
   const handleNewUser = () => {
@@ -302,12 +304,16 @@ export default function FormNewUser() {
           {showAlert ? handleAlert() : null}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Saltar
-              </Button>
-            )}
-
+            {
+              activeStep ===  steps.length-1? 
+              null
+              :
+              (isStepOptional(activeStep) && (
+                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                  Saltar
+                </Button>
+              ))
+            }
             <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
             </Button>

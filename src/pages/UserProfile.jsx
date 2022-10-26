@@ -9,7 +9,6 @@ export default function UserProfile() {
   const [userDB, setUserDB] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const {
-    user,
     userId,
     creatingUser,
   } = useUserState();
@@ -50,19 +49,19 @@ export default function UserProfile() {
   return (
     <section className="flex flex-col justify-center items-center px-4 text-blue-lt md:flex-row md:mt-10">
       <section className="w-full flex flex-col space-y-5 md:w-1/2">
-        <h1 className="text-xl text-center mt-4 font-bold">{user.name}</h1>
+        <h1 className="text-xl text-center mt-4 font-bold">{userDB.name}</h1>
         <picture className="flex flex-col items-center rounded-full px-5">
           <img
-            src={user.picture}
+            src={userDB.avatar}
             className="w-1/3 rounded-full md:w-1/4 lg:w-1/5"
             alt="Foto personal"
           />
         </picture>
         <div className="flex flex-col space-y-1 items-center md:space-y-3">
-          <a href={user.linkedin}>
+          <a href={userDB.linkedin} target="_blank" rel="noopener noreferrer">
             <BsLinkedin className="h-5 w-5" />
           </a>
-          <h3>{user.email}</h3>
+          <h3>{userDB.email}</h3>
           <h3>{userDB.age + " años"}</h3>
         </div>
       </section>

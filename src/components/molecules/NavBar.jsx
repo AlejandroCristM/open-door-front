@@ -9,7 +9,7 @@ import { useUserState } from "../../hooks/useUserState";
 
 
 export default function NavBar() {
-  const {isAuthenticated, userCreated} = useUserState();
+  const {isAuthenticated, userCreated, creatingUser} = useUserState();
   const [navbarOpen, setNavbarOpen] = useState(false)
 
   const handleMenuToggle = () => {
@@ -40,12 +40,13 @@ export default function NavBar() {
           </section>
           :
           <section className='flex flex-row items-center'>
+            {creatingUser?
+              <img src={openDoorLogo} alt="Open Door Logo" />
+              :
               <Link to={'/'}>
                 <img src={openDoorLogo} alt="Open Door Logo" />
               </Link>
-              <div className='flex flex-row space-x-10 ml-8 list-none hidden text-blue-lt md:flex'>
-                <Link to={'/profile'} className='navItem'>Mi perfil</Link>
-              </div>
+            }
           </section>
         }
         {isAuthenticated? <LogOutButton/> : <LoginButton/>}

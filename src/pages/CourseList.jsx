@@ -7,8 +7,10 @@ import { MdAddCircleOutline } from "react-icons/md";
 import { Dialog, DialogTitle, TextField, Button } from "@mui/material";
 import { nanoid } from "nanoid";
 import Loading from "../components/atoms/Loading";
+import { useUserState } from "../hooks/useUserState";
 
 export default function CourseList() {
+  const { userRole } = useUserState();
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isCreateCourseOpen, setIsCreateCourseOpen] = useState(false);
@@ -28,14 +30,14 @@ export default function CourseList() {
         headers: { "Content-Type": "application/json" },
       };
 
-      axios
+      await axios
         .request(options)
         .then(function (response) {
           setCourses(response.data.courses);
         })
         .catch(function (error) {
           console.error(error);
-        });  
+        });
       setIsLoading(false);
     };
     fetchDataCourses();
@@ -53,7 +55,7 @@ export default function CourseList() {
   });
 
   const handleCreateCourseClick = () => {
-    const createCourse=async()=>{
+    const createCourse = async () => {
       const options = {
         method: "POST",
         url: "https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/course/create",
@@ -69,7 +71,7 @@ export default function CourseList() {
         .catch(function (error) {
           console.error(error);
         });
-    }
+    };
     createCourse();
     setIsCreateCourseOpen(false);
     setNewDescriptionCourse("");
@@ -81,18 +83,22 @@ export default function CourseList() {
   return (
     <section className="flex flex-wrap w-full justify-center items-center mt-2 p-4 ">
       <div className="w-full px-5 py-2 flex flex-row justify-between md:px-20 md:py-5">
-        <h2 className="mb-2 text-xl font-semibold">Cursos</h2>
-        <ButtonAndIcon
-          icon={<MdAddCircleOutline className="h-5 w-5 text-white" />}
-          text="Añadir Curso"
-          otherStyles="bg-orange-lt text-white"
-          responsive={true}
-          onClick={() => setIsCreateCourseOpen(true)}
-        />
+        <h2 className="mb-2 text-xl font-semibold md:text-3xl">Cursos</h2>
+        {userRole === "admin" ? (
+          <ButtonAndIcon
+            icon={<MdAddCircleOutline className="h-5 w-5 text-white" />}
+            text="Añadir Curso"
+            otherStyles="bg-orange-lt text-white"
+            responsive={true}
+            onClick={() => setIsCreateCourseOpen(true)}
+          />
+        ) : null}
       </div>
       <section className="flex flex-wrap w-full justify-center mt-4 gap-4 md:gap-8 lg:gap-12">
         {isLoading ? <Loading /> : courseItems}
       </section>
+
+      {/* // Dialog to create a new course */}
       <Dialog
         open={isCreateCourseOpen}
         onClose={() => setIsCreateCourseOpen(false)}
