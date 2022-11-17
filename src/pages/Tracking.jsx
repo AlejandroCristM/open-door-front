@@ -61,7 +61,7 @@ export default function Tracking() {
               <ButtonAndIcon
                 text="Ir a cursos"
                 icon={<ImBooks className="h-5 w-5" />}
-                otherStyles="bg-orange-lt text-white"
+                otherStyles="bg-orange-lt text-white space-x-2"
               />
             </a>
           </div>

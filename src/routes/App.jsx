@@ -14,10 +14,10 @@ import { useUserState } from "../hooks/useUserState";
 import UserDataNotFounded from "../pages/UserDataNotFounded";
 
 function App() {
-  const { isAuthenticated, userCreated } = useUserState();
+  const { isAuthenticated, userCreated, userRole, loadingUser} = useUserState();
   const { isLoading } = useAuth0();
 
-  if (isLoading) {
+  if (isLoading || loadingUser) {
     return <Loading />;
   }
 
@@ -28,12 +28,19 @@ function App() {
           <Route index element={<Home />} />
           {isAuthenticated ? (
             userCreated ? (
-              <>
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="/courses" element={<CourseList />} />
-                <Route path="/course/:courseId" element={<Course />} />
-                <Route path="/tracking/" element={<Tracking />} />
-              </>
+              userRole === "admin" ? (
+                <>
+                  <Route path="courses" element={<CourseList />} />
+                  <Route path="/course/:courseId" element={<Course />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/profile" element={<UserProfile />} />
+                  <Route path="/courses" element={<CourseList />} />
+                  <Route path="/course/:courseId" element={<Course />} />
+                  <Route path="/tracking/" element={<Tracking />} />
+                </>
+              )
             ) : (
               <>
                 <Route path="/profile" element={<UserProfile />} />

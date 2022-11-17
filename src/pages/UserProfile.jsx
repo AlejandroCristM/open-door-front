@@ -9,6 +9,7 @@ export default function UserProfile() {
   const [userDB, setUserDB] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const {
+    user,
     userId,
     creatingUser,
   } = useUserState();
@@ -52,7 +53,7 @@ export default function UserProfile() {
         <h1 className="text-xl text-center mt-4 font-bold">{userDB.name}</h1>
         <picture className="flex flex-col items-center rounded-full px-5">
           <img
-            src={userDB.avatar}
+            src={user.picture}
             className="w-1/3 rounded-full md:w-1/4 lg:w-1/5"
             alt="Foto personal"
           />

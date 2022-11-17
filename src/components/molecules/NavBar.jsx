@@ -9,7 +9,7 @@ import { useUserState } from "../../hooks/useUserState";
 
 
 export default function NavBar() {
-  const {isAuthenticated, userCreated, creatingUser} = useUserState();
+  const {isAuthenticated, userCreated, creatingUser, userRole} = useUserState();
   const [navbarOpen, setNavbarOpen] = useState(false)
 
   const handleMenuToggle = () => {
@@ -33,9 +33,18 @@ export default function NavBar() {
                 <img src={openDoorLogo} alt="Open Door Logo" />
               </Link>
               <div className='flex flex-row space-x-10 ml-8 list-none hidden text-blue-lt md:flex'>
-                <Link to={'/profile'} className='navItem'>Mi perfil</Link>
-                <Link to={'/tracking'} className='navItem'>Seguimiento</Link>
-                <Link to={'/courses'} className='navItem'>Cursos</Link>
+                {
+                  userRole === 'admin'?
+                  <Link to={'/courses'} className='navItem'>Cursos</Link>
+                  :
+                  (
+                    <>
+                      <Link to={'/profile'} className='navItem'>Mi perfil</Link>
+                      <Link to={'/tracking'} className='navItem'>Seguimiento</Link>
+                      <Link to={'/courses'} className='navItem'>Cursos</Link>
+                    </>
+                  )
+                }
               </div>
           </section>
           :
@@ -55,11 +64,23 @@ export default function NavBar() {
 }
 
 const DropMenu =({toggle})=>{
-  return(
-    <div className='flex flex-col bg-blue-lt text-white p-2 space-y-2'>
-      <Link to={'/profile'} className='navItem'  onClick={toggle}>Mi perfil</Link>
-      <Link to={'/tracking'} className='navItem' onClick={toggle}>Seguimiento</Link>
-      <Link to={'/courses'} className='navItem' onClick={toggle}>Cursos</Link>
-    </div>
-  )
+
+  const {userRole} = useUserState();
+
+  if(userRole === 'admin'){
+    return(
+      <div className='flex flex-col bg-blue-lt text-white p-2 space-y-2'>
+        <Link to={'/courses'} className='navItem' onClick={toggle}>Cursos</Link>
+      </div>
+    )
+  }else{   
+    return(
+      <div className='flex flex-col bg-blue-lt text-white p-2 space-y-2'>
+        <Link to={'/profile'} className='navItem'  onClick={toggle}>Mi perfil</Link>
+        <Link to={'/tracking'} className='navItem' onClick={toggle}>Seguimiento</Link>
+        <Link to={'/courses'} className='navItem' onClick={toggle}>Cursos</Link>
+      </div>
+    )
+  }
+
 }

@@ -15,6 +15,8 @@ export default function Course() {
   const courseIdParsed = courseId.substring(0, 25);
   //Just get the id - URL friendly, 25 beacuse from backend the id is 25 chars long
 
+  const { userRole } = useUserState();
+
   const [course, setCourse] = useState([]);
   const [courseStatus, setCourseStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,13 +25,21 @@ export default function Course() {
   useEffect(() => {
     const fetchDataCourse = async () => {
       setIsLoading(true);
-      const options = {
-        method: "GET",
-        url:
-          "https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/course/detail/" +
-          courseIdParsed,
-        headers: { userId: userId },
-      };
+      let options;
+      if(userRole === "admin"){
+        options = {
+          method: "GET",
+          url: `https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/course/detail/${courseIdParsed}`,
+        };
+      }else{
+        options = {
+          method: "GET",
+          url:
+            "https://udea-open-door-back-git-develop-cristiancastano852.vercel.app/course/detail/" +
+            courseIdParsed,
+          headers: { userId: userId },
+        };
+      }
 
       await axios
         .request(options)
@@ -118,28 +128,39 @@ export default function Course() {
         <h1 className="pb-5 text-center text-xl text-blue-lt font-bold">
           {course.title}
         </h1>
-        <RelevantText text={courseStatus} maxLegth={13} />
+        {
+          userRole === "admin" ? 
+          <RelevantText text='Admin' maxLegth={13} />
+          :
+          <RelevantText text={courseStatus} maxLegth={13} />
+        }
         <div className="w-full flex flex-col justify-center items-center">
           <p className="mt-5 mb-2 text-center md:mt-10 md:w-2/3">
             {course.description}
           </p>
         </div>
       </div>
-      <section className="w-full flex flex-col justify-center items-center mt-5 space-y-10 md:mt-10">
-        {courseStatus === "AbleToStart" ? (
-          <ButtonAndIcon
-            text={"Start Course"}
-            otherStyles="bg-orange-lt text-white"
-            responsive={false}
-            onClick={handleClickStartCourse}
-          />
-        ) : null}
-        {isLoading ? (
-          <Loading />
-        ) : courseStatus === "InProgress" || courseStatus === "Finished" ? (
-          courseContent
-        ) : null}
-      </section>
+      {userRole === 'admin' ? 
+          <section className="w-full flex flex-col justify-center items-center mt-5 space-y-10 md:mt-10">
+            {courseContent}
+          </section> 
+        :
+          <section className="w-full flex flex-col justify-center items-center mt-5 space-y-10 md:mt-10">
+            {courseStatus === "AbleToStart" ? (
+              <ButtonAndIcon
+                text={"Start Course"}
+                otherStyles="bg-orange-lt text-white"
+                responsive={false}
+                onClick={handleClickStartCourse}
+              />
+            ) : null}
+            {isLoading ? (
+              <Loading />
+            ) : courseStatus === "InProgress" || courseStatus === "Finished" ? (
+              courseContent
+            ) : null}
+          </section>
+      }
     </section>
   );
 }
